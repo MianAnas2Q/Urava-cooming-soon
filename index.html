@@ -2,56 +2,254 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Urava — Coming Soon</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Urava | Coming Soon</title>
   <style>
+    :root {
+      --urava-blue: #0d47a1;
+      --glass-bg: rgba(255, 255, 255, 0.15);
+      --glass-blur: blur(10px);
+    }
+
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
     }
-    body {
-      font-family: 'Poppins', sans-serif;
-      background: linear-gradient(135deg, #0076CE, #00C896);
-      color: white;
+
+    body, html {
+      height: 100%;
+      font-family: 'Segoe UI', sans-serif;
+      font-weight: bold;
+      color: #ffffff;
+      background: black;
+      overflow: hidden;
+    }
+
+    video {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      object-fit: cover;
+      z-index: 0;
+    }
+
+    .overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
       height: 100vh;
       display: flex;
-      align-items: center;
       justify-content: center;
+      align-items: center;
       flex-direction: column;
-      text-align: center;
-      padding: 20px;
+      gap: 20px;
+      z-index: 1;
     }
-    h1 {
-      font-size: 3rem;
-      margin-bottom: 20px;
+
+    .intro-logo {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0.6);
+      opacity: 0;
+      z-index: 5;
+      animation: logoIntro 2.5s ease forwards;
     }
-    p {
+
+    .intro-logo img {
+      width: 500px;
+      height: auto;
+    }
+
+    @keyframes logoIntro {
+      0% { opacity: 0; transform: translate(-50%, -50%) scale(0.6); }
+      50% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+      100% { opacity: 0; transform: translate(-50%, -50%) scale(1.1); }
+    }
+
+    .top-left-icon {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      z-index: 2;
+      display: none;
+    }
+
+    .top-left-icon img {
+      width: 100px;
+      height: 100px;
+      animation: fadeIn 1s ease forwards;
+    }
+
+    .quote-banner {
+      position: fixed;
+      top: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 3;
       font-size: 1.2rem;
-      max-width: 600px;
-      line-height: 1.5;
+      padding: 8px 16px;
+      background: var(--glass-bg);
+      backdrop-filter: var(--glass-blur);
+      color: var(--urava-blue);
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.2);
     }
-    .date {
-      margin-top: 30px;
-      font-size: 0.95rem;
-      opacity: 0.8;
+
+    .card {
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      background: var(--glass-bg);
+      backdrop-filter: var(--glass-blur);
+      border-radius: 20px;
+      padding: 3rem 4rem;
+      text-align: center;
+      color: var(--urava-blue);
+      font-size: 2.2rem;
+      width: 90%;
+      max-width: 400px;
+      box-shadow: 0 0 30px rgba(0,0,0,0.3);
+      animation-duration: 1s;
+    }
+
+    .card.pop-in {
+      display: flex;
+      animation-name: popIn;
+    }
+
+    .card.pop-out {
+      animation-name: popOut;
+    }
+
+    @keyframes popIn {
+      0% { transform: scale(0.8); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    @keyframes popOut {
+      0% { transform: scale(1); opacity: 1; }
+      100% { transform: scale(1.2); opacity: 0; }
+    }
+
+    #countdown {
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      background: var(--glass-bg);
+      backdrop-filter: var(--glass-blur);
+      border-radius: 20px;
+      padding: 2.5rem;
+      text-align: center;
+      color: var(--urava-blue);
+      font-size: 2.4rem;
+      font-weight: bold;
+      box-shadow: 0 0 20px rgba(0,0,0,0.25);
+      animation: flipCountdown 0.7s ease-in-out infinite alternate;
+      width: 90%;
+      max-width: 400px;
+    }
+
+    @keyframes flipCountdown {
+      from { transform: rotateX(0deg); }
+      to { transform: rotateX(15deg); }
+    }
+
+    @keyframes fadeIn {
+      0% { opacity: 0; }
+      100% { opacity: 1; }
     }
   </style>
 </head>
 <body>
+  <video id="uravaVideo" autoplay muted>
+    <source src="8413553-uhd_3840_2160_25fps.mp4" type="video/mp4" />
+  </video>
 
-  <h1>Coming Soon</h1>
-  <p>
-    A new era of care, intelligence, and service is arriving soon.  
-    Urava is preparing to launch something truly meaningful —  
-    thoughtfully built with technology, purpose, and heart.
-  </p>
-
-  <div class="date">
-    © Urava • Estimated Launch: January 2026
+  <div class="intro-logo" id="introLogo">
+    <img src="logo.png" alt="Urava Cinematic Logo" />
   </div>
 
+  <div class="top-left-icon" id="aiIcon">
+    <img src="urava-icon.png" alt="Urava AI" />
+  </div>
+  <div class="quote-banner">اَلْحَمْدُ لِلّهِ الّذى جَعَلَنا مِنَ الْمُتَمَسِّكينَ بِوِلايَةِ اَميرِ الْمُؤْمِنينَ وَالاْئِمَّةِ عَلَيْهِمُ السَّلامُ</div>
+
+  <div class="overlay">
+    <div id="card1" class="card">Urava is made with love, soul & dua for every home.</div>
+    <div id="card2" class="card">Some secrets are about to be revealed... Urava is not just an app, it's a doorway.</div>
+    <div id="countdown" class="card"></div>
+  </div>
+
+  <script>
+    const introLogo = document.getElementById('introLogo');
+    const aiIcon = document.getElementById('aiIcon');
+    const card1 = document.getElementById('card1');
+    const card2 = document.getElementById('card2');
+    const countdown = document.getElementById('countdown');
+
+    setTimeout(() => {
+      introLogo.style.display = 'none';
+    }, 2500);
+
+    setTimeout(() => {
+      aiIcon.style.display = 'block';
+    }, 3000);
+
+    setTimeout(() => {
+      card1.classList.add('pop-in');
+    }, 6000);
+
+    setTimeout(() => {
+      card1.classList.remove('pop-in');
+      card1.classList.add('pop-out');
+      setTimeout(() => card1.style.display = 'none', 1000);
+    }, 8500);
+
+    setTimeout(() => {
+      card2.classList.add('pop-in');
+    }, 10000);
+
+    setTimeout(() => {
+      card2.classList.remove('pop-in');
+      card2.classList.add('pop-out');
+      setTimeout(() => card2.style.display = 'none', 1000);
+    }, 13000);
+
+    setTimeout(() => {
+      countdown.style.display = 'flex';
+      startCountdown();
+    }, 15000);
+
+    function startCountdown() {
+      const targetDate = new Date('2026-01-01T00:00:00Z');
+
+      const update = () => {
+        const now = new Date();
+        const diff = targetDate - now;
+
+        const totalSeconds = Math.floor(diff / 1000);
+        const totalMinutes = Math.floor(totalSeconds / 60);
+
+        const weeks = Math.floor(totalMinutes / 10080);
+        const days = Math.floor((totalMinutes % 10080) / 1440);
+        const hours = Math.floor((totalMinutes % 1440) / 60);
+        const minutes = totalMinutes % 60;
+        const seconds = totalSeconds % 60;
+
+        countdown.textContent = `${weeks} : ${days} : ${hours} : ${minutes} : ${seconds}`;
+      };
+
+      update();
+      setInterval(update, 1000);
+    }
+  </script>
 </body>
 </html>
 
